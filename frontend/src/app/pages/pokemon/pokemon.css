@@ -1,0 +1,205 @@
+/* Fuente futurista */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.pokemon-container {
+  max-width: 480px;
+  margin: 60px auto;
+  padding: 28px;
+  background: linear-gradient(180deg, #0a0f2c, #020617ee);
+  border-radius: 20px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  box-shadow: 0 0 60px rgba(56, 189, 248, 0.2);
+}
+
+.title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 22px;
+  color: #facc15;
+  text-shadow: 0 0 10px #facc15aa;
+}
+
+
+/* Búsqueda */
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.search-input {
+  padding: 16px 18px;
+  border-radius: 999px;
+  background: #020617;
+  border: 2px solid transparent;
+  background-image:
+    linear-gradient(#020617, #020617),
+    linear-gradient(90deg, #facc15, #38bdf8);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  font-size: 15px;
+}
+
+
+.search-input::placeholder {
+  color: #94a3b8;
+}
+
+.search-input:focus {
+  border-color: #facc15;
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.45);
+}
+
+.search-button {
+  padding: 16px 22px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #facc15, #f97316);
+  color: #020617;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+.search-button:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+}
+
+
+
+.search-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(250,204,21,.6);
+}
+
+.search-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Estados */
+.status {
+  text-align: center;
+  font-size: 14px;
+  margin: 12px 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.loading {
+  color: #38bdf8;
+  font-weight: 500;
+}
+
+.error {
+  color: #f87171;
+  font-weight: 500;
+}
+
+.empty {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* Lista Pokémon */
+.pokemon-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+
+.pokemon-item {
+  position: relative;
+  background: linear-gradient(160deg, #020617, #020617cc);
+  border-radius: 20px;
+  padding: 14px;
+  text-align: center;
+  border: 1px solid rgba(250, 204, 21, 0.25);
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+  transition: all .25s ease;
+  cursor: pointer;
+}
+
+.pokemon-item:hover {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 0 30px rgba(250, 204, 21, 0.45);
+}
+
+
+.pokemon-info {
+  margin-top: 8px;
+}
+
+.pokemon-id {
+  font-size: 12px;
+  color: var(--ui);
+  font-weight: 600;
+}
+
+.pokemon-name {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+}
+
+
+
+.pokemon-avatar img {
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 10px rgba(250,204,21,.4));
+}
+
+
+.pokemon-avatar img:hover {
+  transform: scale(1.1);
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.nav-button {
+  border-radius: 12px;
+  background: #020617;
+  border: 2px solid var(--ui);
+  color: var(--ui);
+  font-weight: 600;
+}
+
+.nav-button:hover {
+  background: var(--ui);
+  color: #020617;
+}
+
+.nav-button:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+}
+
+.nav-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pokemon-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.pokemon-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+  opacity: 0.04;
+  pointer-events: none;
+}

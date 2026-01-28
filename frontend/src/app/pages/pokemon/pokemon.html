@@ -1,0 +1,48 @@
+<div class="pokemon-container">
+
+  <h2 class="title">Pokédex</h2>
+
+  <div class="search-box">
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Buscar Pokémon por nombre..."
+      [(ngModel)]="search"
+      (keyup.enter)="onSearch()"
+    />
+    <button
+      class="search-button"
+      (click)="onSearch()"
+      [disabled]="loading"
+    >
+      Buscar
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="status loading">Cargando Pokémon...</div>
+  <div *ngIf="!loading && error" class="status error">{{ error }}</div>
+  <div *ngIf="!loading && !error && pokemons.length === 0" class="status empty">No hay Pokémon</div>
+
+  <ul *ngIf="!loading && !error && pokemons.length > 0" class="pokemon-list">
+    <li *ngFor="let p of pokemons" class="pokemon-item">
+      <div class="pokemon-info">
+        <span class="pokemon-id">#{{ p.id }}</span>
+        <span class="pokemon-name">{{ p.name }}</span>
+      </div>
+      <div class="pokemon-avatar">
+        <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + p.id + '.png'" 
+             [alt]="p.name" />
+      </div>
+    </li>
+  </ul>
+
+  <div class="pagination">
+    <button class="nav-button" (click)="prevPage()" [disabled]="offset === 0 || loading">
+      Anterior
+    </button>
+    <button class="nav-button" (click)="nextPage()" [disabled]="loading">
+      Siguiente
+    </button>
+  </div>
+
+</div>
