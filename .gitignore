@@ -480,3 +480,26 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+appsettings.Development.json

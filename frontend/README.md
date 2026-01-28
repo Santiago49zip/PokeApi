@@ -1,59 +1,150 @@
-# Frontend
+Arquitectura
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+El proyecto sigue una arquitectura por capas:
 
-## Development server
+Controllers: Exponen los endpoints HTTP al frontend.
 
-To start a local development server, run:
+Services: Contienen la lógica de negocio, consumen el cliente HTTP y llaman al repositorio.
 
-```bash
-ng serve
-```
+HttpClients: Consumo de la PokeAPI, manejo de requests y parsing.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Repositories: Acceso a la base de datos MySQL mediante Entity Framework Core.
 
-## Code scaffolding
+Models:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Entities: Tablas persistidas en MySQL (Pokemon).
 
-```bash
-ng generate component component-name
-```
+DTOs: Objetos de transferencia de datos hacia el frontend.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Diagrama simplificado:
 
-```bash
-ng generate --help
-```
+Frontend Angular <--> Backend ASP.NET Core <--> PokeAPI
+                                    |
+                                    v
+                                 MySQL
 
-## Building
+🔌 Endpoints
+listado paginado
+GET /api/pokemon?limit=20&offset=0
 
-To build the project run:
 
-```bash
-ng build
-```
+Retorna un listado de Pokémon con id y name.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Parámetros:
 
-## Running unit tests
+limit (opcional): número de Pokémon por página (default: 20)
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+offset (opcional): índice de inicio (default: 0)
 
-```bash
-ng test
-```
+Búsqueda por nombre
+GET /api/pokemon?limit=20&offset=0&search=pikachu
 
-## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
+Retorna Pokémon cuyo nombre coincida parcial o totalmente con search.
 
-```bash
-ng e2e
-```
+Listado desde base de datos
+GET /api/pokemon/db
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
-## Additional Resources
+Retorna Pokémon previamente guardados en MySQL.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Evita duplicados usando el PokemonId de PokeAPI.
+
+Paginación
+
+Implementada en backend usando parámetros limit y offset.
+
+Se refleja en la llamada a PokeAPI y en la respuesta final al frontend.
+
+Botones Anterior/Siguiente controlan el offset y permiten navegación por páginas.
+
+Persistencia
+
+La tabla Pokemons se crea automáticamente al ejecutar el backend gracias a Entity Framework Core.
+
+No es necesario ejecutar scripts manuales, ya que el método EnsureCreated() o las migraciones crean la tabla si no existe.
+
+La entidad principal es Pokemon con las siguientes propiedades:
+
+Campo	Tipo	Descripción
+PokemonId	int	ID único del Pokémon (clave primaria)
+Name	string	Nombre del Pokémon
+CreatedAt	datetime	Fecha y hora en que se guardó el registro
+
+Frontend Angular
+
+Listado de Pokémon en cards minimalistas con estilo futurista (Pokédex).
+
+Input de búsqueda con botón explícito.
+
+Estados visuales:
+
+Cargando…
+
+Error
+
+No hay Pokémon
+
+Paginación con botones Anterior/Siguiente, deshabilitados cuando corresponde.
+
+Tecnologías
+
+Backend: ASP.NET Core (.NET 8)
+
+Frontend: Angular 16 (Standalone Components)
+
+Base de datos: MySQL
+
+ORM: Entity Framework Core + Pomelo MySQL
+
+API externa: PokeAPI
+
+HTTP: HttpClient
+
+Documentación: Swagger
+
+▶️ Ejecución
+
+Configurar la cadena de conexión MySQL en Program.cs:
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseMySql(
+        "server=localhost;database=pokedb;user=root;password=admin",
+        ServerVersion.AutoDetect("server=localhost;database=pokedb;user=root;password=admin")
+    );
+});
+
+
+Levantar backend:
+cd Backend
+dotnet run
+
+
+Levantar frontend:
+cd frontend
+npm install
+ng serve --open
+
+
+Angular correrá en http://localhost:4200
+
+Backend correrá en http://localhost:5049
+
+Pruebas
+
+Consultar endpoints en Swagger: http://localhost:5049/swagger
+
+Insomnia / Postman: GET /api/pokemon?limit=10&offset=0
+
+Frontend: listar, buscar, paginar
+
+ Mejoras implementadas
+
+Persistencia en MySQL para evitar múltiples llamadas a PokeAPI.
+
+Manejo de errores centralizado con middleware.
+
+UI minimalista, futurista y responsive.
+
+Standalone components en Angular.
